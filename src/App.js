@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import SignInSide from './components/SignInSide'
 import Dashboard from './components/Dashboard'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
@@ -15,9 +16,12 @@ function App() {
           <Route exact path="/">
             <SignInSide></SignInSide>
           </Route>
-          <Route path="/Dashboard">
+          <PrivateRoute path="/Dashboard">
             <Dashboard />
-          </Route>
+          </PrivateRoute>
+          {/* <Route path="/Dashboard">
+            <Dashboard />
+          </Route> */}
         </Switch>
     </div>
     </Router>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 // import { makeStyles } from '@material-ui/core/styles';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,43 +8,46 @@ import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
+import Update from "@material-ui/icons/Update";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+import ModalForm from "./ModalForm";
 
 // Generate Order Data
-function createData(id, date, name, surname, email, amount) {
-  return { id, date, name, surname, email, amount };
+function createData(id, date, name, surname, email, active) {
+  return { id, date, name, surname, email, active };
 }
 
 function getModalStyle() {
-    const top = 50;
-    const left = 50;
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }));
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 export default function PersonList(props) {
-    const [modalStyle] = useState(getModalStyle);
-    const classes = useStyles();
+  const [modalStyle] = useState(getModalStyle);
+  const classes = useStyles();
   const customers = props.customers;
   const [open, setOpen] = useState(false);
+  const [selectetItem, setSelectedItem] = useState();
   const rows = [];
   customers.map((item) => {
     return rows.push(
@@ -54,13 +57,15 @@ export default function PersonList(props) {
         item.name,
         item.surname,
         item.email,
-        312.44
+        !item.deleted ? "yes" : "No"
       )
     );
   });
 
-  const handleOpen = () => {
+  const handleOpen = (row) => {
     setOpen(true);
+    console.table(row);
+    setSelectedItem(row);
   };
 
   const handleClose = () => {
@@ -69,10 +74,7 @@ export default function PersonList(props) {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+      <ModalForm formData={selectetItem} typeForm={props.title}></ModalForm>
     </div>
   );
 
@@ -97,16 +99,19 @@ export default function PersonList(props) {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.surname}</TableCell>
               <TableCell>{row.email}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell align="right">{row.active}</TableCell>
               <TableCell align="right">
-                <Tooltip title="Add" aria-label="add">
+                <Tooltip title="Update" aria-label="update">
                   <IconButton aria-label="delete">
-                  <AddIcon color="secondary" onClick={handleOpen}/>
+                    <Update
+                      color="secondary"
+                      onClick={() => handleOpen(row)}
+                    />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete">
                   <IconButton aria-label="delete">
-                    <DeleteIcon color="secondary"/>
+                    <DeleteIcon color="secondary" />
                   </IconButton>
                 </Tooltip>
               </TableCell>

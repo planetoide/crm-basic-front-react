@@ -12,9 +12,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "./Copyright";
 import fondo from '../assets/fondo2.jpg';
 import axios from "axios";
-import {
-    Redirect,
+import { Redirect } from "react-router-dom";
+  import {ConfigProtectRoute} from './ConfigProtectRoute';
+  import {
+    useHistory,
+    useLocation
   } from "react-router-dom";
+  
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/Dashboard" } };
   const [datos, setDatos] = useState({
       userName: "",
       password: "",
@@ -70,9 +77,11 @@ export default function SignInSide() {
     axios.post("http://localhost:8080/auth", datos)
       .then((response) => {
         setToken(response.data.token);
-        console.log(token)
         sessionStorage.setItem("token", response.data.token);
-        setRedirect(true);
+        // setRedirect(true);
+        ConfigProtectRoute.authenticate(() => {
+            history.replace(from);
+          });
       })
       .catch((error) => {
         console.log(error)
