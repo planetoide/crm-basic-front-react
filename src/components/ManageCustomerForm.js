@@ -2,27 +2,20 @@ import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import axios from 'axios'
 
-function ModalForm({ formData, typeForm, manageModal }) {
-    formData.password = "haymishijos";
+function ManageCustomerForm({ formData, typeForm, manageModal, chargeCustomers }) {
+    if(typeForm === 'Add' ) {
+        formData = {
+            name: "", 
+            surname: "", 
+            email: ""
+        }
+    }
   const [data, setData] = useState(formData);
-  const [path, setPath] = useState(typeForm === 'Clientes' ? 'customers' : 'users');
-  const url = 'http://localhost:8080/'  + path;
-  const [active, setActive] = useState({
-    isActive: !formData.active
-  });
-
-  const handleChange = name => event  => {
-    setActive({ [name]: event.target.checked });
-    setData({
-        ...data,
-        active: event.target.checked,
-      });
-  };
+//   const [type, setType] = useState(typeForm);
+  const url = 'http://localhost:8080/customers';
 
   const handleInputChange = (event) => {
     setData({
@@ -33,16 +26,37 @@ function ModalForm({ formData, typeForm, manageModal }) {
 
   const sendDataForm = (event) => {
     event.preventDefault();
-    setData({
-        ...data,
-        password: 'haymishijos'
-    });
+    if(typeForm == 'Update') {
+        update();
+    } 
+    if(typeForm === 'Add') {
+        create();
+    } 
+  }
+
+  const update = () => {
     axios.put(url + '/' + data.id, data, {headers: {
         "x-access-token": "Bearer " + sessionStorage.getItem("token"),
       }})
       .then((response) => {
           manageModal();
+          chargeCustomers();
 
+        })
+        .catch((error) => {
+            alert('limea 50')
+        console.log(error)
+      })
+  }
+
+  const create = () => {
+      console.table(data)
+      axios.post(url + '/', data, {headers: {
+          "x-access-token": "Bearer " + sessionStorage.getItem("token"),
+        }})
+        .then((response) => {
+            manageModal();
+            chargeCustomers();
         })
         .catch((error) => {
         console.log(error)
@@ -52,7 +66,7 @@ function ModalForm({ formData, typeForm, manageModal }) {
   return (
     <>
       <Typography variant="h6" gutterBottom color="secondary">
-        {typeForm}
+        {typeForm} Customer
       </Typography>
       <form noValidate onSubmit={sendDataForm}>
       <Grid container spacing={3}>
@@ -91,37 +105,13 @@ function ModalForm({ formData, typeForm, manageModal }) {
             onChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="password"
-            name="password"
-            label="password"
-            fullWidth
-            value={data.password}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox 
-                color="secondary" 
-                name="isActive" 
-                value="yes"
-                checked={active.isActive}
-                onChange={handleChange('isActive')} />
-            }
-            label="Activate"
-          />
-        </Grid>
         <Button
               type="submit"
               fullWidth
               variant="contained"
               color="secondary"
             >
-                Update
+                {typeForm}
             </Button>
       </Grid>
       </form>
@@ -129,4 +119,4 @@ function ModalForm({ formData, typeForm, manageModal }) {
   );
 }
 
-export default ModalForm;
+export default ManageCustomerForm;

@@ -2,27 +2,25 @@ import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import axios from 'axios'
 
-function ModalForm({ formData, typeForm, manageModal }) {
-    formData.password = "haymishijos";
+function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
+  console.log(formData)
+  if(!formData.name) {
+    formData = {
+      email: "",
+      name: "",
+      password: "",
+      surname: ""
+    }
+  }
   const [data, setData] = useState(formData);
-  const [path, setPath] = useState(typeForm === 'Clientes' ? 'customers' : 'users');
+  const [path, setPath] = useState('users');
   const url = 'http://localhost:8080/'  + path;
   const [active, setActive] = useState({
     isActive: !formData.active
   });
-
-  const handleChange = name => event  => {
-    setActive({ [name]: event.target.checked });
-    setData({
-        ...data,
-        active: event.target.checked,
-      });
-  };
 
   const handleInputChange = (event) => {
     setData({
@@ -33,26 +31,37 @@ function ModalForm({ formData, typeForm, manageModal }) {
 
   const sendDataForm = (event) => {
     event.preventDefault();
-    setData({
-        ...data,
-        password: 'haymishijos'
-    });
-    axios.put(url + '/' + data.id, data, {headers: {
-        "x-access-token": "Bearer " + sessionStorage.getItem("token"),
-      }})
-      .then((response) => {
-          manageModal();
-
+    if(typeForm == 'Update') {
+      axios.put(url + '/' + data.id, data, {headers: {
+          "x-access-token": "Bearer " + sessionStorage.getItem("token"),
+        }})
+        .then((response) => {
+            manageModal();
+            chargeUsers();
+          })
+          .catch((error) => {
+          console.log(error)
         })
-        .catch((error) => {
-        console.log(error)
-      })
+    } 
+    if(typeForm == 'Add') {
+      axios.post(url + '/', data, {headers: {
+          "x-access-token": "Bearer " + sessionStorage.getItem("token"),
+        }})
+        .then((response) => {
+            manageModal();
+            chargeUsers();
+  
+          })
+          .catch((error) => {
+          console.log(error)
+        })
+    } 
   }
 
   return (
     <>
       <Typography variant="h6" gutterBottom color="secondary">
-        {typeForm}
+        {typeForm} chale
       </Typography>
       <form noValidate onSubmit={sendDataForm}>
       <Grid container spacing={3}>
@@ -102,19 +111,6 @@ function ModalForm({ formData, typeForm, manageModal }) {
             onChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox 
-                color="secondary" 
-                name="isActive" 
-                value="yes"
-                checked={active.isActive}
-                onChange={handleChange('isActive')} />
-            }
-            label="Activate"
-          />
-        </Grid>
         <Button
               type="submit"
               fullWidth
@@ -129,4 +125,4 @@ function ModalForm({ formData, typeForm, manageModal }) {
   );
 }
 
-export default ModalForm;
+export default ManageUserForm;

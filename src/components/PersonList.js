@@ -14,6 +14,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import ModalForm from "./ModalForm";
+import { Grid } from "@material-ui/core";
+import Button from '@material-ui/core/Button'
 
 // Generate Order Data
 function createData(id, date, name, surname, email, active) {
@@ -40,12 +42,15 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  title: {
+      marginTop: "10px"
+  }
 }));
 
 export default function PersonList(props) {
+  const customers = props.customers;
   const [modalStyle] = useState(getModalStyle);
   const classes = useStyles();
-  const customers = props.customers;
   const [open, setOpen] = useState(false);
   const [selectetItem, setSelectedItem] = useState();
   const rows = [];
@@ -74,13 +79,24 @@ export default function PersonList(props) {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <ModalForm formData={selectetItem} typeForm={props.title}></ModalForm>
+      <ModalForm formData={selectetItem} typeForm={props.title} manageModal={handleClose}></ModalForm>
     </div>
   );
 
   return (
     <React.Fragment>
-      <Title>{props.title}</Title>
+        <Grid container spacing={12} className={classes.title}>
+            <Grid item md={9}>
+
+      <Title >{props.title}</Title>
+            </Grid>
+            <Grid item md={3} alignContent="flex-start">
+      <Button variant="contained" size="small" color="secondary" onClick={handleOpen}>
+          Agregar {props.title} 
+          <AddIcon/>
+        </Button>
+            </Grid>
+        </Grid>
       <Table size="small">
         <TableHead>
           <TableRow>

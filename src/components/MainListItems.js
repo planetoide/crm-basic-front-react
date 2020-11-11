@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -25,8 +25,14 @@ const useStyles = makeStyles((theme) => ({
 
 function MainListItems() {
   const [logOut, setLogOut] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const classes = useStyles();
   let { path, url } = useRouteMatch();
+
+  useEffect(() => {
+    const storage = sessionStorage.getItem('isAdmin');
+    setIsAdmin(storage == 'true');
+  }, []);
 
   const logOutMethod = () => {
       sessionStorage.removeItem('token');
@@ -38,6 +44,17 @@ function MainListItems() {
     return <Redirect to='/'/>;
   }
 
+  const body = (
+    <Link to={`${url}/users`} className={classes.link} >
+        <ListItem button>
+          <ListItemIcon>
+            <ShoppingCartIcon className={classes.link} />
+          </ListItemIcon>
+          <ListItemText primary="Users" />
+        </ListItem>
+      </Link>
+  );
+
   return (
     <div>
       <Link to={`${url}`} className={classes.link}>
@@ -48,14 +65,7 @@ function MainListItems() {
           <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
-      <Link to={`${url}/users`} className={classes.link}>
-        <ListItem button>
-          <ListItemIcon>
-            <ShoppingCartIcon className={classes.link} />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-        </ListItem>
-      </Link>
+      {isAdmin ? body : ""}
       <Link to={`${url}/customers`} className={classes.link}>
         <ListItem button>
           <ListItemIcon>
