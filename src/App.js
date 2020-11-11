@@ -7,6 +7,8 @@ import {
 import SignInSide from './components/SignInSide'
 import Dashboard from './components/Dashboard'
 import PrivateRoute from './components/PrivateRoute'
+import store from './redux/store';
+import {Provider} from 'react-redux';
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
             <SignInSide></SignInSide>
           </Route>
           <PrivateRoute path="/Dashboard">
+      <Provider store={store}>
             <Dashboard />
+          </Provider>
           </PrivateRoute>
           {/* <Route path="/Dashboard">
             <Dashboard />

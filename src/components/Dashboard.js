@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Users from "./Users";
 import Customers from "./Customers";
+import DashboardContent from "./DashboardContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ function Dashboard() {
       <Grid item xs={12} sm={12} md={10}>
         <Switch>
           <Route exact path={`${path}`}>
-            Hola
+            <DashboardContent />
           </Route>
           <Route path={`${path}/customers`}>
             <Customers />
