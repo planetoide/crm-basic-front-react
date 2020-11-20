@@ -63,7 +63,7 @@ function Customers() {
 
   const getCustomers = () => {
     axios
-      .get("http://localhost:8080/customers", {
+      .get("https://heroku-java-react.herokuapp.com/customers", {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },
