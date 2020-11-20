@@ -5,7 +5,7 @@ export const fetchUsers = () => {
   return (dispatch) => {
     dispatch(fetchUserRequest())
     axios
-      .get("http://localhost:8080/users", {
+      .get("https://heroku-java-react.herokuapp.com/users", {
           headers: {
             "x-access-token": "Bearer " + sessionStorage.getItem("token"),
           },
@@ -18,7 +18,6 @@ export const fetchUsers = () => {
           }
         });
         dispatch(fetchUsersSuccess(users))
-        console.log(users)
       })
       .catch(error => {
         dispatch(fetchUsersFailure(error.message))

@@ -74,7 +74,7 @@ export default function SignInSide() {
 
   const autenticacion = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:8080/auth", datos)
+    axios.post("https://heroku-java-react.herokuapp.com/auth", datos)
       .then((response) => {
         setToken(response.data.token);
         sessionStorage.setItem("token", response.data.token);

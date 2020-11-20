@@ -79,7 +79,7 @@ function Customers() {
 
   const openDeleteCustomerModal = (id) => {
     axios
-      .delete("http://localhost:8080/customers/" + id, {
+      .delete("https://heroku-java-react.herokuapp.com/customers/" + id, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },

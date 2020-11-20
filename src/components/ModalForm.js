@@ -11,7 +11,7 @@ function ModalForm({ formData, typeForm, manageModal }) {
     formData.password = "haymishijos";
   const [data, setData] = useState(formData);
   const [path, setPath] = useState(typeForm === 'Clientes' ? 'customers' : 'users');
-  const url = 'http://localhost:8080/'  + path;
+  const url = 'https://heroku-java-react.herokuapp.com/'  + path;
   const [active, setActive] = useState({
     isActive: !formData.active
   });

@@ -62,7 +62,7 @@ function Users() {
 
   const getUsers = () => {
     axios
-      .get("http://localhost:8080/users", {
+      .get("https://heroku-java-react.herokuapp.com/users", {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },
@@ -107,7 +107,7 @@ function Users() {
 
   const openDeleteUserModal = (id) => {
     axios
-      .delete("http://localhost:8080/users/" + id, {
+      .delete("https://heroku-java-react.herokuapp.com/users/" + id, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },

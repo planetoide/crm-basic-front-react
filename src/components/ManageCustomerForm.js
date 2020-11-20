@@ -15,7 +15,7 @@ function ManageCustomerForm({ formData, typeForm, manageModal, chargeCustomers }
     }
   const [data, setData] = useState(formData);
 //   const [type, setType] = useState(typeForm);
-  const url = 'http://localhost:8080/customers';
+  const url = 'https://heroku-java-react.herokuapp.com/customers';
 
   const handleInputChange = (event) => {
     setData({

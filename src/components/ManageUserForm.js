@@ -17,7 +17,7 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
   }
   const [data, setData] = useState(formData);
   const [path, setPath] = useState('users');
-  const url = 'http://localhost:8080/'  + path;
+  const url = 'https://heroku-java-react.herokuapp.com/'  + path;
   const [active, setActive] = useState({
     isActive: !formData.active
   });
