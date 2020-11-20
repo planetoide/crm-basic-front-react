@@ -61,8 +61,6 @@ function DashboardContent({ customerData,userData, fetchCustomers, fetchUsers })
         />
         }
       </div>
-      <h2>{customerData.customers.length}</h2>
-      <h2>{userData.users.length}</h2>
     </div>
   );
 }
