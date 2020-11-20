@@ -1,4 +1,4 @@
-import { GET_CUSTOMERS, ADD_CUSTOMER, DELETE_CUSTOMER, FETCH_CUSTOMER_REQUEST, FETCH_CUSTOMER_SUCCESS, FETCH_CUSTOMER_FAILURE } from './customerTypes';
+import { FETCH_CUSTOMER_REQUEST, FETCH_CUSTOMER_SUCCESS, FETCH_CUSTOMER_FAILURE } from './customerTypes';
 import axios from "axios";
 
 export const fetchCustomers = () => {
@@ -11,11 +11,16 @@ export const fetchCustomers = () => {
             },
           })
         .then(response => {
-          const customers = response.data
-          dispatch(fetchUsersSuccess(customers))
+          const customers = [];
+          response.data.map((customer) => {
+            if(!customer.deleted) {
+              customers.push(customer)
+            }
+          });
+          dispatch(fetchCustomersSuccess(customers))
         })
         .catch(error => {
-          dispatch(fetchUsersFailure(error.message))
+          dispatch(fetchCustomersFailure(error.message))
         })
     }
   }
@@ -26,14 +31,14 @@ export const fetchCustomerRequest = () => {
     }
 }
 
-export const fetchUsersSuccess = customers => {
+export const fetchCustomersSuccess = customers => {
     return {
       type: FETCH_CUSTOMER_SUCCESS,
       payload: customers
     }
   }
   
-  export const fetchUsersFailure = error => {
+  export const fetchCustomersFailure = error => {
     return {
       type: FETCH_CUSTOMER_FAILURE,
       payload: error

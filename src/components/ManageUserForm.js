@@ -117,7 +117,7 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
               variant="contained"
               color="secondary"
             >
-                Update
+               {typeForm}
             </Button>
       </Grid>
       </form>

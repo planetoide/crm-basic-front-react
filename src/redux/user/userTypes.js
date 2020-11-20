@@ -1,3 +1,3 @@
-export const GET_USERS = "GET_USERS";
-export const ADD_USER = "ADD_USER";
-export const DELETE_USER = "DELETE_USER";
+export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST'
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS'
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'

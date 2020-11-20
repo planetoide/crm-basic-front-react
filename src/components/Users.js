@@ -178,11 +178,13 @@ function Users() {
                       />
                     </IconButton>
                   </Tooltip>
+                  {row.id !== 1 &&
                   <Tooltip title="Delete">
                     <IconButton aria-label="delete">
                       <DeleteIcon color="secondary" onClick={() => openDeleteUserModal(row.id)}/>
                     </IconButton>
                   </Tooltip>
+      }
                 </TableCell>
               </TableRow>
             ))}

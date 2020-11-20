@@ -1,45 +1,81 @@
-import React,  { useEffect } from 'react'
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { fetchCustomers } from "../redux";
+import { fetchCustomers, fetchUsers } from "../redux";
+import { Pie } from "react-chartjs-2";
 
-function DashboardContent({ customerData, fetchCustomers }) {
-    console.table(customerData)
-    useEffect(() => {
-        fetchCustomers();
-      }, []);
-    
-      return customerData.loading ? (
-        <h2>Loading...</h2>
-      ) : customerData.error ? (
-        <h2>{customerData.error}</h2>
-      ) : (
-        <div>
-          <h2>Lista de usuarios</h2>
-          <div>
-        {customerData &&
-          customerData.customers &&
-          customerData.customers.map((user) => <p key={user.id}>{user.name}</p>)}
+const styles = {
+  flexContainer: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  divChart: {
+    width: "80%",
+
+  },
+  title: {
+    // border:"1px solid red"
+  },
+};
+
+function DashboardContent({ customerData,userData, fetchCustomers, fetchUsers }) {
+  // const count = 
+  useEffect(() => {
+    fetchCustomers();
+    fetchUsers();
+  }, []);
+
+  return customerData.loading && userData.loading ? (
+    <h2>Loading...</h2>
+  ) : customerData.error ? (
+    <h2>{customerData.error}</h2>
+  ) : (
+    <div style={styles.flexContainer}>
+      <h2 style={styles.title}>Dashboard</h2>
+      <div style={styles.divChart}>
+        {
+          customerData && userData && customerData.customers && userData.users && <Pie
+          data={{
+            labels: ["Customers", "Users"],
+            datasets: [
+              {
+                label: "Percentage",
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                ],
+                hoverBackgroundColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                ],
+                data: [customerData.customers.length, userData.users.length],
+              },
+            ],
+          }}
+          options={{
+            legend: {
+              display: true,
+              position: "right",
+            },
+          }}
+        />
+        }
       </div>
-        </div>
-      );
+      <h2>{customerData.customers.length}</h2>
+      <h2>{userData.users.length}</h2>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-    return {
-      //   usa el nombre que se asigno en combine reducer para 
-      //    acceder a la funcion reductora para usuarios
-      //     cake: cakeReducer,
-      //   iceCream: iceCreamReducer,
-      //   user: userReducer
-      customerData: state.customer
-    };
-  };
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchCustomers: () => dispatch(fetchCustomers()),
-    };
-  };
-  
+const mapStateToProps = (state) => ({
+    customerData: state.customer,
+    userData: state.user
+  }
+);
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchCustomers: () => dispatch(fetchCustomers()),
+    fetchUsers: () => dispatch(fetchUsers()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardContent);

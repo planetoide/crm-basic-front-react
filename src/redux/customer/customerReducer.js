@@ -3,7 +3,7 @@ import {FETCH_CUSTOMER_REQUEST, FETCH_CUSTOMER_SUCCESS, FETCH_CUSTOMER_FAILURE }
 
 const initialState = {
     loading: false,
-    users: [],
+    customers: [],
     error: ''
 }
 
