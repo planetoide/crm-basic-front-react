@@ -1,11 +1,12 @@
 import { FETCH_CUSTOMER_REQUEST, FETCH_CUSTOMER_SUCCESS, FETCH_CUSTOMER_FAILURE } from './customerTypes';
 import axios from "axios";
+import { URLSERVER } from '../../environment';
 
 export const fetchCustomers = () => {
     return (dispatch) => {
       dispatch(fetchCustomerRequest())
       axios
-        .get("https://heroku-java-react.herokuapp.com/customers", {
+        .get(`${URLSERVER}customers`, {
             headers: {
               "x-access-token": "Bearer " + sessionStorage.getItem("token"),
             },

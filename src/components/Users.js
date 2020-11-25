@@ -16,6 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ManageUserForm from "./ManageUserForm";
 import { Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { URLSERVER } from '../environment';
 
 // Generate Order Data
 function createData(id, admin, name, surname, email, active, password) {
@@ -62,7 +63,7 @@ function Users() {
 
   const getUsers = () => {
     axios
-      .get("https://heroku-java-react.herokuapp.com/users", {
+      .get(`${URLSERVER}users`, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },
@@ -107,7 +108,7 @@ function Users() {
 
   const openDeleteUserModal = (id) => {
     axios
-      .delete("https://heroku-java-react.herokuapp.com/users/" + id, {
+      .delete(`${URLSERVER}users/${id}`, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },

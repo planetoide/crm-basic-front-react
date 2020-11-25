@@ -18,6 +18,7 @@ import { Redirect } from "react-router-dom";
     useHistory,
     useLocation
   } from "react-router-dom";
+  import { URLSERVER } from '../environment';
   
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +75,7 @@ export default function SignInSide() {
 
   const autenticacion = (event) => {
     event.preventDefault();
-    axios.post("https://heroku-java-react.herokuapp.com/auth", datos)
+    axios.post(`${URLSERVER}auth`, datos)
       .then((response) => {
         setToken(response.data.token);
         sessionStorage.setItem("token", response.data.token);
@@ -94,6 +95,8 @@ export default function SignInSide() {
           });
       })
 } 
+
+const required = value => (value ? undefined : true)
 
 if (redirect) {
     return <Redirect to='/Dashboard'/>;
@@ -116,7 +119,7 @@ if (redirect) {
               variant="outlined"
               color="secondary"
               margin="normal"
-              required
+              validate={required}
               fullWidth
               id="email"
               label="User"
@@ -124,14 +127,12 @@ if (redirect) {
               autoComplete="email"
               autoFocus
               onChange={handleInputChange}
-              helperText={token !== "" ? "buena" : "Incorrect entry."}
-              error = {false}
             />
             <TextField
               variant="outlined"
               margin="normal"
               color="secondary"
-              required
+              validate={required}
               fullWidth
               name="password"
               label="Password"

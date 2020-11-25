@@ -1,11 +1,12 @@
 import axios from "axios";
 import { FETCH_USER_FAILURE, FETCH_USER_REQUEST, FETCH_USER_SUCCESS } from "./userTypes";
+import { URLSERVER } from '../../environment';
 
 export const fetchUsers = () => {
   return (dispatch) => {
     dispatch(fetchUserRequest())
     axios
-      .get("https://heroku-java-react.herokuapp.com/users", {
+      .get(`${URLSERVER}users`, {
           headers: {
             "x-access-token": "Bearer " + sessionStorage.getItem("token"),
           },

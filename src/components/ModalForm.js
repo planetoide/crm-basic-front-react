@@ -6,12 +6,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import axios from 'axios'
+import { URLSERVER } from '../environment';
 
 function ModalForm({ formData, typeForm, manageModal }) {
     formData.password = "haymishijos";
   const [data, setData] = useState(formData);
   const [path, setPath] = useState(typeForm === 'Clientes' ? 'customers' : 'users');
-  const url = 'https://heroku-java-react.herokuapp.com/'  + path;
+  const url = `${URLSERVER}path`;
   const [active, setActive] = useState({
     isActive: !formData.active
   });

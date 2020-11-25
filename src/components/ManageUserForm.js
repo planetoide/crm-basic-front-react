@@ -4,9 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from 'axios'
+import { URLSERVER } from '../environment';
 
 function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
-  console.log(formData)
   if(!formData.name) {
     formData = {
       email: "",
@@ -17,7 +17,7 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
   }
   const [data, setData] = useState(formData);
   const [path, setPath] = useState('users');
-  const url = 'https://heroku-java-react.herokuapp.com/'  + path;
+  const url = `${URLSERVER}path`;
   const [active, setActive] = useState({
     isActive: !formData.active
   });
@@ -58,6 +58,8 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
     } 
   }
 
+  const required = value => (value ? undefined : 'Required')
+
   return (
     <>
       <Typography variant="h6" gutterBottom color="secondary">
@@ -91,7 +93,7 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
+            validate={required}
             id="email"
             name="email"
             label="Email"
@@ -102,7 +104,7 @@ function ManageUserForm({ formData, typeForm, manageModal, chargeUsers }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
+            validate={required}
             id="password"
             name="password"
             label="password"

@@ -17,6 +17,7 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { URLSERVER } from '../environment';
 
 // Generate Order Data
 function createData(id, name, surname, email, active) {
@@ -63,7 +64,7 @@ function Customers() {
 
   const getCustomers = () => {
     axios
-      .get("https://heroku-java-react.herokuapp.com/customers", {
+      .get(`${URLSERVER}customers`, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },
@@ -79,7 +80,7 @@ function Customers() {
 
   const openDeleteCustomerModal = (id) => {
     axios
-      .delete("https://heroku-java-react.herokuapp.com/customers/" + id, {
+      .delete(`${URLSERVER}customers/` + id, {
         headers: {
           "x-access-token": "Bearer " + sessionStorage.getItem("token"),
         },

@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from 'axios'
+import { URLSERVER } from '../environment';
 
 function ManageCustomerForm({ formData, typeForm, manageModal, chargeCustomers }) {
     if(typeForm === 'Add' ) {
@@ -15,7 +16,7 @@ function ManageCustomerForm({ formData, typeForm, manageModal, chargeCustomers }
     }
   const [data, setData] = useState(formData);
 //   const [type, setType] = useState(typeForm);
-  const url = 'https://heroku-java-react.herokuapp.com/customers';
+  const url = `${URLSERVER}customers`;
 
   const handleInputChange = (event) => {
     setData({
